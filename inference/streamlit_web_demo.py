@@ -47,7 +47,7 @@ def download_model(model_name):
 
 # Load the model at the start
 @st.cache_resource
-def load_model(model_path: str, dtype: torch.dtype, device: str) -> CogVideoXPipeline:
+def load_model(model_path: str, dtype: torch.dtype) -> CogVideoXPipeline:
     """
     Load the CogVideoX model.
 
