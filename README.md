@@ -1,4 +1,4 @@
-# CogVideo && CogVideoX
+# CogVideo && CogVideoX GUI Improvement
 
 [中文阅读](./README_zh.md)
 
@@ -79,6 +79,7 @@ Jump to a specific section:
 Before running the model, please refer to [this guide](inference/convert_demo.py) to see how we use large models like
 GLM-4 (or other comparable products, such as GPT-4) to optimize the model. This is crucial because the model is trained
 with long prompts, and a good prompt directly impacts the quality of the video generation.
+A prompt enhancing template to paste into LLM web interfaces can be generated in the GUI.
 
 ### SAT
 
@@ -91,6 +92,11 @@ rapid stacking and development.
 ### Diffusers
 
 **Please make sure your Python version is between 3.10 and 3.12, inclusive of both 3.10 and 3.12.**
+
+```
+conda create -n cog python==3.10
+conda activate cog
+```
 
 ```
 pip install -r requirements.txt
@@ -189,8 +195,8 @@ models we currently offer, along with their foundational information.
   </tr>
   <tr>
     <td style="text-align: center;">Inference Speed<br>(Step = 50, FP/BF16)</td>
-    <td style="text-align: center;">Single A100: ~90 seconds<br>Single H100: ~45 seconds</td>
-    <td style="text-align: center;">Single A100: ~180 seconds<br>Single H100: ~90 seconds</td>
+    <td style="text-align: center;">Single A100: ~90 seconds<br>Single H100: ~45 seconds<br>Single 4090: ~120 seconds</td>
+    <td style="text-align: center;">Single A100: ~180 seconds<br>Single H100: ~90 seconds<br>Single 4090: ~330 seconds</td>
   </tr>
   <tr>
     <td style="text-align: center;">Fine-tuning Precision</td>
@@ -278,6 +284,60 @@ This open-source repository will guide developers to quickly get started with th
 of the **CogVideoX** open-source model.
 
 ### Inference
+
+To run the CogVideoX demo using local models and one batch script to start the program, follow these steps:
+
+1. **Directory Structure**:
+   Ensure your directory structure looks like this:
+   ```
+   CogVideo/
+   ├── models/
+   ├── output/
+   ├── CogVideoUI/
+   │   └── inference/
+   │       └── streamlit_web_demo.py
+   └── run_cog_video.bat
+   ```
+
+2. **Local Models**:
+   Place your downloaded models in the `models/` directory. The script will automatically detect and list available models.
+
+3. **Batch Script**:
+   The `run_cog_video.bat` file should be in the root `CogVideo/` directory. Its contents should be:
+
+   ```batch
+   @echo off
+   title cog
+   
+   :: Change to the directory containing the batch file
+   cd /d "%~dp0"
+   
+   :: Activate the Conda environment named "cog"
+   call conda activate cog
+   
+   :: Run the Python script
+   streamlit run "CogVideoUI\inference\streamlit_web_demo.py"
+   
+   :: Deactivate the Conda environment
+   call conda deactivate
+   
+   pause
+   ```
+
+4. **Running the Demo**:
+   - Double-click the `run_cog_video.bat` file.
+   - This will open a command prompt, activate the "cog" Conda environment, and start the Streamlit web application.
+   - The application will open in your default web browser.
+
+5. **Using the Web Interface**:
+   - The interface will display a list of available local models.
+   - If no models are found, you'll be prompted to download one.
+   - Enter your prompt and adjust settings as needed.
+   - Click "Generate Video" to create your video.
+
+6. **Output**:
+   Generated videos will be saved in the `output/` directory, organized by timestamp.
+
 
 + [dcli_demo](inference/cli_demo.py): A more detailed inference code explanation, including the significance of
   common parameters. All of this is covered here.
